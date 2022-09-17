@@ -49,8 +49,5 @@ lateinit var newsAdapter: NewsAdapter
             }
         })
 
-
-
-
     }
 }
