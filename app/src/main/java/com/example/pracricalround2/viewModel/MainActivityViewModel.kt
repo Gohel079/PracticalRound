@@ -9,6 +9,7 @@ import com.example.pracricalround2.network.RetroService
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MainActivityViewModel :ViewModel(){
@@ -26,12 +27,18 @@ class MainActivityViewModel :ViewModel(){
     }
 
     fun makeApiCall(){
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
 
+            delay(2000)
             val instance = RetroInstance.getInstance().create(RetroService::class.java)
-            var response = instance.getDataFtromAPI("sources=techcrunch&apiKey=f70c3813c0fe408790e6c203557f63e5")
-            val gson = Gson().fromJson(response,JsonObject::class.java)
-            recyclerListLiveData.postValue(gson.get("articles") as ArrayList<NewsDataModel>)
+            var response = instance.getDataFtromAPI("techcrunch","f70c3813c0fe408790e6c203557f63e5")
+//            val gson = Gson().fromJson(response.toString(),JsonObject::class.java)
+
+
+            viewModelScope.launch(Dispatchers.Main) {
+                recyclerListLiveData.postValue(response.articles as ArrayList<NewsDataModel>?)
+
+            }
 
         }
     }

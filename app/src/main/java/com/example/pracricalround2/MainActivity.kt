@@ -38,6 +38,8 @@ lateinit var newsAdapter: NewsAdapter
 
         val viewModel =  ViewModelProvider(this).get(MainActivityViewModel::class.java)
 
+
+        viewModel.makeApiCall()
         viewModel.getListOfDataObserver().observe(this,Observer<ArrayList<NewsDataModel>>{
 
             if(it != null){
@@ -47,7 +49,7 @@ lateinit var newsAdapter: NewsAdapter
             }
         })
 
-        viewModel.makeApiCall()
+
 
 
     }

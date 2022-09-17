@@ -11,3 +11,9 @@ data class NewsDataModel(
     val urlToImage: String
 
 )
+
+data class Status(
+    val status: String,
+    val  totalResults : String,
+    val articles : List<NewsDataModel>
+)
