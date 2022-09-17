@@ -8,7 +8,7 @@ interface RetroService {
 
 
         @GET(value = "top-headlines")
-        suspend fun getDataFtromAPI(@Query(value = "q") query: String) : NewsDataModel
+        suspend fun getDataFtromAPI(@Query(value = "sources=techcrunch&apiKey=f70c3813c0fe408790e6c203557f63e5") query: String) : String
 
 
 }

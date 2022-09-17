@@ -6,12 +6,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.pracricalround2.model.NewsDataModel
 import com.example.pracricalround2.network.RetroInstance
 import com.example.pracricalround2.network.RetroService
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainActivityViewModel :ViewModel(){
 
-    lateinit var recyclerListLiveData : MutableLiveData<NewsDataModel>
+    lateinit var recyclerListLiveData : MutableLiveData<ArrayList<NewsDataModel>>
 
 
     init {
@@ -19,7 +21,7 @@ class MainActivityViewModel :ViewModel(){
     }
 
 
-    fun getListOfDataObserver() : MutableLiveData<NewsDataModel>{
+    fun getListOfDataObserver() : MutableLiveData<ArrayList<NewsDataModel>>{
         return recyclerListLiveData
     }
 
@@ -28,7 +30,9 @@ class MainActivityViewModel :ViewModel(){
 
             val instance = RetroInstance.getInstance().create(RetroService::class.java)
             var response = instance.getDataFtromAPI("sources=techcrunch&apiKey=f70c3813c0fe408790e6c203557f63e5")
-            recyclerListLiveData.postValue(response)
+            val gson = Gson().fromJson(response,JsonObject::class.java)
+            recyclerListLiveData.postValue(gson.get("articles") as ArrayList<NewsDataModel>)
+
         }
     }
 }
